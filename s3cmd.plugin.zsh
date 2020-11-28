@@ -39,9 +39,26 @@ function _s3cmd() {
   local curcontext="$curcontext" state help="-h --help"
   local -a _options
   _options=(
-    {-h,--help}"[show help message and exit]"
+    "(: -)"{-h,--help}"[Show help message and exit]"
     "($help)--configure[Invoke interactive (re)configuration tool]"
+    "($help -c --config)"{-c,--config}"=[Config file name. Defaults to \$HOME/.s3cfg]"
+    "(: -)--dump-config[Dump current configuration after parsing config files and command line options and exit]"
     "($help)--access_key=[AWS Access Key]"
+    "($help)--secret_key=[AWS Secret Key]"
+    "($help)--access_token=[AWS Access Token]"
+    "($help -n --dry-run)"{-n,--dry-run}"[Only show what should be uploaded or downloaded but don't actually do it]"
+    "($help -s --ssl)"{-s,--ssl}"[Use HTTPS connection when communicating with S3 (default)]"
+    "($help)--no-ssl[Don't use HTTPS]"
+    "($help -e --encrypt)"{-e,--encrypt}"[Encrypt files before uploading to S3]"
+    "($help)--no-encrypt[Don't encrypt files]"
+    "($help -f --force)"{-f,--force}"[Force overwrite and other dangerous operations]"
+    "($help)--continue[Continue getting a partially downloaded file (only for 'get' command)]"
+    "($help)--continue-put[Continue uploading partially uploaded files or multipart upload parts]"
+    "($help)--upload-id=[UploadId for Multipart Upload, in case you want to continue an existing upload]"
+    "($help)--skip-existing[Skip over files that exist at the destination (only for 'get' and 'sync' commands)]"
+    "($help -r --recursive)"{-r,--recursive}"[Recursive upload, download or removal]"
+    "($help)--check-md5[Check MD5 sums when comparing files for 'sync' (default)]"
+    "($help)--no-check-md5[Do not check MD5 sums when comparing files for 'sync']"
   )
 
   _arguments -C $_options \
