@@ -59,6 +59,12 @@ function _s3cmd() {
     "($help -r --recursive)"{-r,--recursive}"[Recursive upload, download or removal]"
     "($help)--check-md5[Check MD5 sums when comparing files for 'sync' (default)]"
     "($help)--no-check-md5[Do not check MD5 sums when comparing files for 'sync']"
+    "($help -P --acl-public)"{-P,--acl-public}"[Store objects with ACL allowing read for anyone]"
+    "($help)--acl-private[Store objects with default ACL allowing access for you only]"
+    "($help)--acl-grant=[Grant stated permission to a given amazon user]:permissions:(read write read_acp write_acp full_control all)"
+    "($help)--acl-revoke=[Revoke stated permission for a given amazon user]:permissions:(read write read_acp write_acp full_control all)"
+    "($help -D --restore-days)"{-D,--restore-days}"=[Number of days to keep restored file available (only for 'restore' command)]"
+    "($help)--restore-priority[Priority for restoring files from S3 Glacier (only for 'restore' command)]:restore:(bulk standard expedited)"
   )
 
   _arguments -C $_options \
