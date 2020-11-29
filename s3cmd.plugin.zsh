@@ -73,6 +73,19 @@ function _s3cmd() {
     "($help)--limit=[Limit number of objects returned in the response body (only for 'ls' and 'la' commands)]:limit: "
     "($help)*--add-destination=[Additional destination for parallel uploads, in addition to last arg. May be repeated]:destination: "
     "($help)--delete-after-fetch[Delete remote objects after fetching to local file (only for 'get' and 'sync' commands)]"
+    "($help -p --preserve)"{-p,--preserve}"[Preserve filesystem attributes (mode, ownership, timestamps). Default for 'sync' command]"
+    "($help)--no-preserve[Don't store FS attributes]"
+    "($help)--exclude=[Filenames and paths matching GLOB will be excluded from sync]:glob pattern: "
+    "($help)--exclude-from=[Read --exclude GLOBs from FILE]:file:_files"
+    "($help)--rexclude=[Filenames and paths matching REGEXP (regular expression) will be excluded from sync]:regexp: "
+    "($help)--rexclude-from=[Read --rexclude REGEXPs from FILE]:file:_files"
+    "($help)--include=[Filenames and paths matching GLOB will be included even if previously excluded by one of --(r)exclude(-from) patterns]:glob pattern: "
+    "($help)--include-from=[Read --include GLOBs from FILE]:file:_files"
+    "($help)--rinclude=[Same as --include but uses REGEXP (regular expression) instead of GLOB]:regexp: "
+    "($help)--rinclude-from=[Read --rinclude REGEXPs from FILE]:file:_files"
+    "($help)--files-from=[Read list of source-file names from FILE. Use - to read from stdin]:file:_files"
+    "($help --region --bucket-location)"{--region,--bucket-location}"=[Region to create bucket in]:region:(us-east-1 us-west-1 us-west-2 eu-west-1 eu-central-1 ap-northeast-1 ap-southeast-1 ap-southeast-2 sa-east-1)"
+    "($help)--host=[HOSTNAME:PORT for S3 endpoint (default: s3.amazonaws.com, alternatives such as s3-eu-west-1.amazonaws.com). You should also set --host-bucket]:host: "
   )
 
   _arguments -C $_options \
