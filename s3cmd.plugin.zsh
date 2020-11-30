@@ -86,6 +86,19 @@ function _s3cmd() {
     "($help)--files-from=[Read list of source-file names from FILE. Use - to read from stdin]:file:_files"
     "($help --region --bucket-location)"{--region,--bucket-location}"=[Region to create bucket in]:region:(us-east-1 us-west-1 us-west-2 eu-west-1 eu-central-1 ap-northeast-1 ap-southeast-1 ap-southeast-2 sa-east-1)"
     "($help)--host=[HOSTNAME:PORT for S3 endpoint (default: s3.amazonaws.com, alternatives such as s3-eu-west-1.amazonaws.com). You should also set --host-bucket]:host: "
+    "($help)--host-bucket=[DNS-style bucket+hostname:port template for accessing a bucket (default: %(bucket)s.s3.amazonaws.com)]:host: "
+    "($help --rr --reduced-redundancy)"{--rr,--reduced-redundancy}"[Store object with 'Reduced redundancy'. Lower per-GB price (for 'put', 'cp', 'mv')]"
+    "($help --no-rr --no-reduced-redundancy)"{--no-rr,--no-reduced-redundancy}"[Store object without 'Reduced redundancy'. Higher per-GB price (for 'put', 'cp', 'mv')]"
+    "($help)--storage-class=[Store object with specified CLASS. Lower per-GB price (for 'put', 'cp', 'mv')]:class:(STANDARD STANDARD_IA REDUCED_REDUNDANCY)"
+    "($help)--access-logging-target-prefix=[Target prefix for access logs (S3 URI) (for 'cfmodify' and 'accesslog')]:prefix: "
+    "($help)--no-access-logging[Disable access logging (for 'cfmodify' and 'accesslog')]"
+    "($help)--default-mime-type=[Default MIME-type for stored objects. Application default is binary/octet-stream]:mime type: "
+    "($help -M --guess-mime-type)"{-M,--guess-mime-type}"[Guess MIME-type of files by their extension or mime magic. Fall back to default MIME-Type as specified by --default-mime-type option]"
+    "($help)--no-guess-mime-type[Don't guess MIME-type and use the default type instead]"
+    "($help)--no-mime-magic[Don't use mime magic when guessing MIME-type]"
+    "($help -m --mime-type)"{-m,--mime-type}"=[Force MIME-type. Override both --default-mime-type and --guess-mime-type]:mime type: "
+    "($help)*--add-header=[Add a given HTTP header to the upload request - NAME:VALUE. Can be used multiple times]:http header: "
+    "($help)*--remove-header=[Remove a given HTTP header. Can be used multiple times (for 'modify')]:http header name: "
   )
 
   _arguments -C $_options \
