@@ -1,10 +1,31 @@
 function _command() {
   integer ret=1
-  local -a _commands=(
+  local -a _commands
+  _commands=(
+    'mb:Make bucket'
+    'rb:Remove bucket'
     'ls:List objects or buckets'
     'la:List all object in all buckets'
-    'mb:Make bucket'
     'put:Put file into bucket'
+    'get:Get file from bucket'
+    'del:Delete file from bucket'
+    'rm:Delete file from bucket'
+    'restore:Restore file from Glacier storage'
+    'sync:Synchronize a directory tree to S3'
+    'du:Disk usage by buckets'
+    'info:Get various information about Buckets or Files'
+    'cp:Copy object'
+    'modify:Modify object metadata'
+    'mv:Move object'
+    'setacl:Modify Access control list for Bucket or Files'
+    'setpolicy:Modify Bucket Policy'
+    'delpolicy:Delete Bucket Policy'
+    'setcors:Modify Bucket CORS'
+    'delcors:Delete Bucket CORS'
+    'payer:Modify Bucket Requester Pays policy'
+    'multipart:Show multipart uploads'
+    'abortmp:Abort a multipart upload'
+    'listmp:List parts of a multipart upload'
   )
   _describe -t commands 'command' _commands && ret=0
 
@@ -23,11 +44,26 @@ function _bucket() {
 function _command_argument() {
   integer ret=1
   case "$words[1]" in
-  ls)
+  mb | rb | ls | du | info | modify | setacl | delpolicy | delcors | payer | multipart | abortmp | listmp)
     _arguments "1:bucket:_bucket" && ret=0
     ;;
-  put)
+  la)
+    ret=0
+    ;;
+  put | setpolicy | setcors)
     _arguments "1:filepath:_files" "2:bucket:_bucket" && ret=0
+    ;;
+  get)
+    _arguments "1:bucket:_bucket" "2:file:_files" && ret=0
+    ;;
+  del | rm | restore)
+    _arguments "1:bucket:_bucket" ret=0
+    ;;
+  sync)
+    _arguments "1:dir:_files" "2:bucket:_bucket" && ret=0
+    ;;
+  cp | mv)
+    _arguments "1:bucket:_bucket" "2:bucket:_bucket" && ret=0
     ;;
   esac
 
