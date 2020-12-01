@@ -26,6 +26,23 @@ function _command() {
     'multipart:Show multipart uploads'
     'abortmp:Abort a multipart upload'
     'listmp:List parts of a multipart upload'
+    'accesslog:Enable/disable bucket access logging'
+    'sign:Sign arbitrary string using the secret key'
+    'signurl:Sign an S3 URL to provide limited public access with expiry'
+    'fixbucket:Fix invalid file names in a bucket'
+    'ws-create:Create Website from bucket'
+    'ws-delete:Delete Website'
+    'ws-info:Info about Website'
+    'expire:Set or delete expiration rule for the bucket'
+    'setlifecycle:Upload a lifecycle policy for the bucket'
+    'getlifecycle:Get a lifecycle policy for the bucket'
+    'dellifecycle:Remove a lifecycle policy for the bucket'
+    'cflist:List CloudFront distribution points'
+    'cfinfo:Display CloudFront distribution point parameters'
+    'cfcreate:Create CloudFront distribution point'
+    'cfdelete:Delete CloudFront distribution point'
+    'cfmodify:Change CloudFront distribution point parameters'
+    'cfinvalinfo:Display CloudFront invalidation request(s) status'
   )
   _describe -t commands 'command' _commands && ret=0
 
@@ -41,16 +58,24 @@ function _bucket() {
   return ret
 }
 
+function _cf_point() {
+  integer ret=1
+  compadd -S '' 'cf://' && ret=0
+
+  return ret
+}
+
 function _command_argument() {
   integer ret=1
   case "$words[1]" in
-  mb | rb | ls | du | info | modify | setacl | delpolicy | delcors | payer | multipart | abortmp | listmp)
+  mb | rb | ls | du | info | modify | setacl | delpolicy | delcors | payer | multipart | abortmp | \
+    listmp | accesslog | signurl | fixbucket | ws-create | ws-delete | ws-info | expire | getlifecycle | dellifecycle | cfcreate)
     _arguments "1:bucket:_bucket" && ret=0
     ;;
-  la)
+  la | sign | cflist)
     ret=0
     ;;
-  put | setpolicy | setcors)
+  put | setpolicy | setcors | setlifecycle)
     _arguments "1:filepath:_files" "2:bucket:_bucket" && ret=0
     ;;
   get)
@@ -64,6 +89,9 @@ function _command_argument() {
     ;;
   cp | mv)
     _arguments "1:bucket:_bucket" "2:bucket:_bucket" && ret=0
+    ;;
+  cfinfo | cfdelete | cfmodify | cfinvalinfo)
+    _arguments "1:cf:_cf_point" && ret=0
     ;;
   esac
 
