@@ -52,9 +52,10 @@ function _command() {
 function _bucket() {
   integer ret=1
   local -a _buckets
-  _buckets=($(s3cmd ls | grep -o 's3://\S*' | tr '\n' ' ' | sed 's!s3://!!g'))
-  compadd -P 's3://' -a _buckets && ret=0
-
+  local _search_term=$(echo $words[-1] | grep -o '^s3://\S*/')
+  _buckets=($(s3cmd ls $_search_term | grep -o 's3://.*$' | sed 's/:/\\:\\/g'))
+  _describe -t buckets 'buckets' _buckets -S '' && ret=0
+  
   return ret
 }
 
@@ -82,7 +83,7 @@ function _command_argument() {
     _arguments "1:bucket:_bucket" "2:file:_files" && ret=0
     ;;
   del | rm | restore)
-    _arguments "1:bucket:_bucket" ret=0
+    _arguments "1:bucket:_bucket" && ret=0
     ;;
   sync)
     _arguments "1:dir:_files" "2:bucket:_bucket" && ret=0
