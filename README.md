@@ -1,17 +1,34 @@
 # s3cmd-zsh-plugin
+
 Zsh autocomplete plugin for [s3cmd](https://s3tools.org/s3cmd)
+
 ## Installation
+
 ### Oh My Zsh
+
 Clone this repo.
+
 ```bash
 cd $ZSH_CUSTOM/plugins && git clone https://github.com/FFKL/s3cmd-zsh-plugin.git
 ```
+
 And add it to the plugins array in `.zshrc`
+
 ```bash
 plugins=(... s3cmd)
 ```
 
+## Aliases
+
+| Alias | Command               | Description                       |
+| ----- | --------------------- | --------------------------------- |
+| sls   | s3cmd ls              | List objects or buckets           |
+| spt   | s3cmd --recursive put | Put file or directory into bucket |
+| sgt   | s3cmd --recursive get | Get file or directory from bucket |
+| srm   | s3cmd rm              | Delete file from bucket           |
+
 ## License
+
 ```
 Copyright (C) 2020 Dmitrii Korostelev<ffklffkl@gmail.com>
 

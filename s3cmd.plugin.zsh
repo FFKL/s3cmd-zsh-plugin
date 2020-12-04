@@ -74,7 +74,7 @@ function _bucket() {
   local _search_term=$(echo $words[-1] | grep -o '^s3://\S*/')
   _buckets=($(s3cmd ls $_search_term | grep -o 's3://.*$' | sed 's/:/\\:\\/g'))
   _describe -t buckets 'buckets' _buckets -S '' && ret=0
-  
+
   return ret
 }
 
@@ -245,5 +245,10 @@ function _s3cmd() {
 
   return ret
 }
+
+alias sls='s3cmd ls'
+alias spt='s3cmd --recursive put'
+alias sgt='s3cmd --recursive get'
+alias srm='s3cmd rm'
 
 compdef _s3cmd s3cmd
