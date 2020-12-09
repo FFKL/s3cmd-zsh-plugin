@@ -27,6 +27,10 @@ plugins=(... s3cmd)
 | sgt   | s3cmd --recursive get | Get file or directory from bucket |
 | srm   | s3cmd rm              | Delete file from bucket           |
 
+## Contribution
+
+Contributors are welcome! Please send pull requests improving the usage and fixing bugs.
+
 ## License
 
 ```
