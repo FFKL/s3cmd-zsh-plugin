@@ -81,8 +81,8 @@ function _cut_prefix() {
 
 function _bucket() {
   integer ret=1
-  local _path _temp_IFS
-  local -a _buckets _s3_files _directories _search_result
+  local _path _temp_IFS _prefix
+  local -a _buckets _s3_files _s3_dirs _search_result
   local _search_term=$(echo "${words[-1]}" | grep -o '^s3://\S*/.*' | sed 's/\\ / /g')
   if [[ -z "$_search_term" ]]; then
     _buckets=($(s3cmd ls | grep -o 's3://.*$' | _cut_prefix "$_search_term" | sed 's/:/\\:\\/g'))
@@ -92,9 +92,10 @@ function _bucket() {
     _temp_IFS=$IFS
     IFS=$'\n'
     _s3_files=($(echo "$_search_result" | grep --invert-match '^\s*DIR\s*s3://.*$' | grep -o 's3://.*$' | _cut_prefix "$_search_term" | sed 's/:/\\:\\/g'))
-    _directories=($(echo "$_search_result" | grep '^\s*DIR\s*s3://.*$' | grep -o 's3://.*$' | _cut_prefix "$_search_term" | sed 's/:/\\:\\/g'))
-    ((${#_s3_files[@]})) && _describe -t files 'files' _s3_files -P $(echo "$_search_term" | sed 's/ /\\ /g') && ret=0
-    ((${#_directories[@]})) && _describe -t directories 'directories' _directories -P $(echo "$_search_term" | sed 's/ /\\ /g') -S '' && ret=0
+    _s3_dirs=($(echo "$_search_result" | grep '^\s*DIR\s*s3://.*$' | grep -o 's3://.*$' | _cut_prefix "$_search_term" | sed 's/:/\\:\\/g'))
+    _prefix=$(echo "$_search_term" | sed 's/ /\\ /g')
+    ((${#_s3_files[@]})) && _describe -t files 'files' _s3_files -P "$_prefix" && ret=0
+    ((${#_s3_dirs[@]})) && _describe -t directories 'directories' _s3_dirs -P "$_prefix" -S '' && ret=0
     IFS=$_temp_IFS
   fi
 
