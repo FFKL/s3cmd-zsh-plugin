@@ -118,11 +118,26 @@ function _command_argument() {
   la | sign | cflist)
     ret=0
     ;;
-  put | setpolicy | setcors | setlifecycle)
+  put)
+    _arguments "(--rr --reduced-redundancy)"{--rr,--reduced-redundancy}"[Store object with 'Reduced redundancy'. Lower per-GB price]" \
+      "(--no-rr --no-reduced-redundancy)"{--no-rr,--no-reduced-redundancy}"[Store object without 'Reduced redundancy'. Higher per-GB price]" \
+      "--storage-class=[Store object with specified CLASS. Lower per-GB price]:class:(STANDARD STANDARD_IA REDUCED_REDUNDANCY)" \
+      "--server-side-encryption[Specifies that server-side encryption will be used when putting objects]" \
+      "--server-side-encryption-kms-id=[Specifies the key id used for server-side encryption with AWS KMS-Managed Keys (SSE-KMS) when putting objects]:kms key: " \
+      "(-r --recursive)"{-r,--recursive}"[Recursive upload]" \
+      "1:filepath:_files" \
+      "2:bucket:_bucket" && ret=0
+    ;;
+  setpolicy | setcors | setlifecycle)
     _arguments "1:filepath:_files" "2:bucket:_bucket" && ret=0
     ;;
   get)
-    _arguments "1:bucket:_bucket" "2:file:_files" && ret=0
+    _arguments "--continue[Continue getting a partially downloaded file]" \
+      "--skip-existing[Skip over files that exist at the destination]" \
+      "--delete-after-fetch[Delete remote objects after fetching to local file]" \
+      "(-r --recursive)"{-r,--recursive}"[Recursive upload, download or removal]" \
+      "1:bucket:_bucket" \
+      "2:file:_files" && ret=0
     ;;
   del | rm | restore)
     _arguments "1:bucket:_bucket" && ret=0
