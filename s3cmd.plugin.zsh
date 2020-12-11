@@ -166,8 +166,21 @@ function _command_argument() {
       "1:dir:_files" \
       "2:bucket:_bucket" && ret=0
     ;;
-  cp | mv)
-    _arguments "1:bucket:_bucket" "2:bucket:_bucket" && ret=0
+  cp)
+    _arguments "(--rr --reduced-redundancy)"{--rr,--reduced-redundancy}"[Store object with 'Reduced redundancy'. Lower per-GB price]" \
+      "(--no-rr --no-reduced-redundancy)"{--no-rr,--no-reduced-redundancy}"[Store object without 'Reduced redundancy'. Higher per-GB price]" \
+      "--storage-class=[Store object with specified CLASS. Lower per-GB price]:class:(STANDARD STANDARD_IA REDUCED_REDUNDANCY)" \
+      "--server-side-encryption[Specifies that server-side encryption will be used when putting objects]" \
+      "--server-side-encryption-kms-id=[Specifies the key id used for server-side encryption with AWS KMS-Managed Keys (SSE-KMS) when putting objects]:kms key: " \
+      "1:bucket:_bucket" \
+      "2:bucket:_bucket" && ret=0
+    ;;
+  mv)
+    _arguments "(--rr --reduced-redundancy)"{--rr,--reduced-redundancy}"[Store object with 'Reduced redundancy'. Lower per-GB price]" \
+      "(--no-rr --no-reduced-redundancy)"{--no-rr,--no-reduced-redundancy}"[Store object without 'Reduced redundancy'. Higher per-GB price]" \
+      "--storage-class=[Store object with specified CLASS. Lower per-GB price]:class:(STANDARD STANDARD_IA REDUCED_REDUNDANCY)" \
+      "1:bucket:_bucket" \
+      "2:bucket:_bucket" && ret=0
     ;;
   cfinfo | cfdelete | cfmodify | cfinvalinfo)
     _arguments "1:cf:_cf_point" && ret=0
