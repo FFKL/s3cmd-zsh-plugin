@@ -111,12 +111,21 @@ function _cf_point() {
 function _command_argument() {
   integer ret=1
   case "$words[1]" in
-  mb | rb | ls | du | info | modify | setacl | delpolicy | delcors | payer | multipart | abortmp | \
+  mb | rb | du | info | modify | setacl | delpolicy | delcors | payer | multipart | abortmp | \
     listmp | accesslog | signurl | fixbucket | ws-create | ws-delete | ws-info | expire | getlifecycle | dellifecycle | cfcreate)
     _arguments "1:bucket:_bucket" && ret=0
     ;;
-  la | sign | cflist)
+  sign | cflist)
     ret=0
+    ;;
+  ls)
+    _arguments "--limit=[Limit number of objects returned in the response body]:limit: " \
+      "--list-md5[Include MD5 sums in bucket listings]" \
+      "(-l --long-listing)"{-l,--long-listing}"[Produce long listing]" \
+      "1:bucket:_bucket" && ret=0
+    ;;
+  la)
+    _arguments "--limit=[Limit number of objects returned in the response body]:limit: " && ret=0
     ;;
   put)
     _arguments "(--rr --reduced-redundancy)"{--rr,--reduced-redundancy}"[Store object with 'Reduced redundancy'. Lower per-GB price]" \
