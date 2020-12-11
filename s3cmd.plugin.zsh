@@ -182,8 +182,19 @@ function _command_argument() {
       "1:bucket:_bucket" \
       "2:bucket:_bucket" && ret=0
     ;;
-  cfinfo | cfdelete | cfmodify | cfinvalinfo)
+  cfinfo | cfdelete | cfinvalinfo)
     _arguments "1:cf:_cf_point" && ret=0
+    ;;
+  cfmodify)
+    _arguments "--access-logging-target-prefix=[Target prefix for access logs (S3 URI)]:prefix: " \
+      "--no-access-logging[Disable access logging]" \
+      "--enable[Enable given CloudFront distribution]" \
+      "--disable[Disable given CloudFront distribution]" \
+      "--cf-add-cname=[Add given CNAME to a CloudFront distribution]:cname: " \
+      "--cf-remove-cname=[Remove given CNAME from a CloudFront distribution]:cname: " \
+      "--cf-comment=[Set COMMENT for a given CloudFront distribution]:comment: " \
+      "--cf-default-root-object=[Set the default root object to return when no object is specified in the URL. Use a relative path]:path: " \
+      "1:cf:_cf_point" && ret=0
     ;;
   esac
 
