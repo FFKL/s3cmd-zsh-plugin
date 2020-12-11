@@ -143,7 +143,19 @@ function _command_argument() {
     _arguments "1:bucket:_bucket" && ret=0
     ;;
   sync)
-    _arguments "1:dir:_files" "2:bucket:_bucket" && ret=0
+    _arguments "--skip-existing[Skip over files that exist at the destination]" \
+      "--check-md5[Check MD5 sums when comparing (default)]" \
+      "--no-check-md5[Do not check MD5 sums when comparing files]" \
+      "--delete-removed[Delete destination objects with no corresponding source file]" \
+      "--delete-after[Perform deletes after new uploads]" \
+      "--delay-updates[!OBSOLETE! Put all updated files into place at end]" \
+      "--max-delete=[Do not delete more than NUM files]:files count: " \
+      "--delete-after-fetch[Delete remote objects after fetching to local file]" \
+      "(-p --preserve)"{-p,--preserve}"[Preserve filesystem attributes (mode, ownership, timestamps) (default)]" \
+      "--server-side-encryption[Specifies that server-side encryption will be used when putting objects]" \
+      "--server-side-encryption-kms-id=[Specifies the key id used for server-side encryption with AWS KMS-Managed Keys (SSE-KMS) when putting objects]:kms key: " \
+      "1:dir:_files" \
+      "2:bucket:_bucket" && ret=0
     ;;
   cp | mv)
     _arguments "1:bucket:_bucket" "2:bucket:_bucket" && ret=0
