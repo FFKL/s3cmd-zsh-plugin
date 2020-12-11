@@ -111,12 +111,34 @@ function _cf_point() {
 function _command_argument() {
   integer ret=1
   case "$words[1]" in
-  mb | rb | du | info | modify | setacl | delpolicy | delcors | payer | multipart | abortmp | \
-    listmp | accesslog | signurl | fixbucket | ws-create | ws-delete | ws-info | expire | getlifecycle | dellifecycle | cfcreate)
+  mb | rb | du | info | setacl | delpolicy | delcors | payer | multipart | abortmp | \
+    listmp | signurl | fixbucket | ws-delete | ws-info | getlifecycle | dellifecycle | cfcreate)
     _arguments "1:bucket:_bucket" && ret=0
+    ;;
+  expire)
+    _arguments "($help)--expiry-date=[Indicates when the expiration rule takes effect]:date: " \
+      "($help)--expiry-days=[Indicates the number of days after object creation the expiration rule takes effect]:days: " \
+      "($help)--expiry-prefix=[Identifying one or more objects with the prefix to which the expiration rule applies]:prefix: " \
+      "1:bucket:_bucket" && ret=0
+    ;;
+  ws-create)
+    _arguments "--ws-index=[Name of index-document]:website index: " \
+      "--ws-error=[Name of error-document]:website error: " \
+      "1:bucket:_bucket" && ret=0
     ;;
   sign | cflist)
     ret=0
+    ;;
+  modify)
+    _arguments "*--remove-header=[Remove a given HTTP header. Can be used multiple times]:http header name: " \
+      "--server-side-encryption[Specifies that server-side encryption will be used when putting objects]" \
+      "--server-side-encryption-kms-id=[Specifies the key id used for server-side encryption with AWS KMS-Managed Keys (SSE-KMS) when putting objects]:kms key: " \
+      "1:bucket:_bucket" && ret=0
+    ;;
+  accesslog)
+    _arguments "--access-logging-target-prefix=[Target prefix for access logs (S3 URI)]:prefix: " \
+      "--no-access-logging[Disable access logging]" \
+      "1:bucket:_bucket" && ret=0
     ;;
   ls)
     _arguments "--limit=[Limit number of objects returned in the response body]:limit: " \
@@ -148,8 +170,13 @@ function _command_argument() {
       "1:bucket:_bucket" \
       "2:file:_files" && ret=0
     ;;
-  del | rm | restore)
+  del | rm)
     _arguments "1:bucket:_bucket" && ret=0
+    ;;
+  restore)
+    _arguments "(-D --restore-days)"{-D,--restore-days}"=[Number of days to keep restored file available]:restore days: " \
+      "--restore-priority[Priority for restoring files from S3 Glacier]:restore:(bulk standard expedited)" \
+      "1:bucket:_bucket" && ret=0
     ;;
   sync)
     _arguments "--skip-existing[Skip over files that exist at the destination]" \
