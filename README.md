@@ -23,8 +23,8 @@ plugins=(... s3cmd)
 | Alias | Command               | Description                       |
 | ----- | --------------------- | --------------------------------- |
 | sls   | s3cmd ls              | List objects or buckets           |
-| spt   | s3cmd --recursive put | Put file or directory into bucket |
-| sgt   | s3cmd --recursive get | Get file or directory from bucket |
+| spt   | s3cmd put --recursive | Put file or directory into bucket |
+| sgt   | s3cmd get --recursive | Get file or directory from bucket |
 | srm   | s3cmd rm              | Delete file from bucket           |
 
 ## Contribution
