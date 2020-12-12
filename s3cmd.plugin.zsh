@@ -274,8 +274,6 @@ function _s3cmd() {
     "($help)--continue-put[Continue uploading partially uploaded files or multipart upload parts]"
     "($help)--upload-id=[UploadId for Multipart Upload, in case you want to continue an existing upload]:upload id: "
     "($help -r --recursive)"{-r,--recursive}"[Recursive upload, download or removal]"
-    "($help)--check-md5[Check MD5 sums when comparing files for 'sync' (default)]"
-    "($help)--no-check-md5[Do not check MD5 sums when comparing files for 'sync']"
     "($help -P --acl-public)"{-P,--acl-public}"[Store objects with ACL allowing read for anyone]"
     "($help)--acl-private[Store objects with default ACL allowing access for you only]"
     "($help)--acl-grant=[Grant stated permission to a given amazon user]:permissions:(read write read_acp write_acp full_control all)"
