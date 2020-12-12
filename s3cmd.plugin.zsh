@@ -125,9 +125,9 @@ function _command_argument() {
       "1:bucket:_bucket" && ret=0
     ;;
   expire)
-    _arguments "($help)--expiry-date=[Indicates when the expiration rule takes effect]:date: " \
-      "($help)--expiry-days=[Indicates the number of days after object creation the expiration rule takes effect]:days: " \
-      "($help)--expiry-prefix=[Identifying one or more objects with the prefix to which the expiration rule applies]:prefix: " \
+    _arguments "--expiry-date=[Indicates when the expiration rule takes effect]:date: " \
+      "--expiry-days=[Indicates the number of days after object creation the expiration rule takes effect]:days: " \
+      "--expiry-prefix=[Identifying one or more objects with the prefix to which the expiration rule applies]:prefix: " \
       "1:bucket:_bucket" && ret=0
     ;;
   ws-create)
