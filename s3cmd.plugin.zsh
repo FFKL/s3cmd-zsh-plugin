@@ -376,5 +376,6 @@ alias sls='s3cmd ls'
 alias spt='s3cmd put --recursive'
 alias sgt='s3cmd get --recursive'
 alias srm='s3cmd rm'
+alias ssyn='s3cmd sync'
 
 compdef _s3cmd s3cmd
