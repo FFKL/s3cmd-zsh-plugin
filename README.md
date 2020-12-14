@@ -26,6 +26,7 @@ plugins=(... s3cmd)
 | spt   | s3cmd put --recursive | Put file or directory into bucket |
 | sgt   | s3cmd get --recursive | Get file or directory from bucket |
 | srm   | s3cmd rm              | Delete file from bucket           |
+| ssyn  | s3cmd sync            | Synchronize a directory tree      |
 
 ## Contribution
 

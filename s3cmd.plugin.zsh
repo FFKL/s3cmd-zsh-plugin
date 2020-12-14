@@ -79,6 +79,16 @@ function _cut_prefix() {
   return 0
 }
 
+function _complete_bucket_or_directory() {
+  integer ret=1
+  if [[ "$words[-1]" =~ '^s3:.*' ]]; then
+    _bucket && ret=0
+  else
+    _files -/ && ret=0
+  fi
+  return ret
+}
+
 function _bucket() {
   integer ret=1
   local _path _temp_IFS _prefix
@@ -194,6 +204,7 @@ function _command_argument() {
       "1:bucket:_bucket" && ret=0
     ;;
   sync)
+    local state
     _arguments "--skip-existing[Skip over files that exist at the destination]" \
       "--check-md5[Check MD5 sums when comparing (default)]" \
       "--no-check-md5[Do not check MD5 sums when comparing files]" \
@@ -207,8 +218,22 @@ function _command_argument() {
       "--server-side-encryption[Specifies that server-side encryption will be used when putting objects]" \
       "--server-side-encryption-kms-id=[Specifies the key id used for server-side encryption with AWS KMS-Managed Keys (SSE-KMS) when putting objects]:kms key: " \
       "(-f --force)"{-f,--force}"[Force overwrite]" \
-      "1:dir:_files" \
-      "2:bucket:_bucket" && ret=0
+      "1:source:->source" \
+      "2:destination:->destination" && ret=0
+
+    case $state in
+    source)
+      _complete_bucket_or_directory && ret=0
+      ;;
+    destination)
+      if [[ "$words[-2]" =~ '^s3://.*' ]]; then
+        _complete_bucket_or_directory && ret=0
+      else
+        _bucket && ret=0
+      fi
+      ;;
+    esac
+
     ;;
   cp)
     _arguments "(--rr --reduced-redundancy)"{--rr,--reduced-redundancy}"[Store object with 'Reduced redundancy'. Lower per-GB price]" \
@@ -351,5 +376,6 @@ alias sls='s3cmd ls'
 alias spt='s3cmd put --recursive'
 alias sgt='s3cmd get --recursive'
 alias srm='s3cmd rm'
+alias ssyn='s3cmd sync'
 
 compdef _s3cmd s3cmd
