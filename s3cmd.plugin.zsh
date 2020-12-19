@@ -81,7 +81,7 @@ function _cut_prefix() {
 
 function _complete_bucket_or_directory() {
   integer ret=1
-  if [[ "$words[-1]" =~ '^s3:.*' ]]; then
+  if [[ "$1" =~ '^s3:.*' ]]; then
     _bucket && ret=0
   else
     _files -/ && ret=0
@@ -218,16 +218,16 @@ function _command_argument() {
       "--server-side-encryption[Specifies that server-side encryption will be used when putting objects]" \
       "--server-side-encryption-kms-id=[Specifies the key id used for server-side encryption with AWS KMS-Managed Keys (SSE-KMS) when putting objects]:kms key: " \
       "(-f --force)"{-f,--force}"[Force overwrite]" \
-      "1:source:->source" \
-      "2:destination:->destination" && ret=0
+      "(-)1:source:->source" \
+      "(-)2:destination:->destination" && ret=0
 
     case $state in
     source)
-      _complete_bucket_or_directory && ret=0
+      _complete_bucket_or_directory "$words[$CURRENT]" && ret=0
       ;;
     destination)
-      if [[ "$words[-2]" =~ '^s3://.*' ]]; then
-        _complete_bucket_or_directory && ret=0
+      if [[ "$words[(($CURRENT - 1))]" =~ '^s3://.*' ]]; then
+        _complete_bucket_or_directory "$words[$CURRENT]" && ret=0
       else
         _bucket && ret=0
       fi
